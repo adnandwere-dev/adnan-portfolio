@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const cvHref = "/MY-CV1.pdf";
+const cvHref = "/my-cv.pdf";
 
 export default function ResumePage() {
   const [language, setLanguage] = useState("en");
