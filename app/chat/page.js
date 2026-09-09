@@ -191,15 +191,15 @@ export default function Chat() {
     <div className="flex h-screen overflow-hidden bg-background">
       {/* ================= Sidebar ================= */}
 
-      {openSidebar && (
-        <Sidebar
-          chats={chats}
-          setChats={setChats}
-          activeChat={activeChat}
-          setActiveChat={setActiveChat}
-          onOpen={() => setOpenPopup(true)}
-        />
-      )}
+      <Sidebar
+        chats={chats}
+        setChats={setChats}
+        activeChat={activeChat}
+        setActiveChat={setActiveChat}
+        onOpen={() => setOpenPopup(true)}
+        onClose={() => setOpenSidebar(false)}
+        openSidebar={openSidebar}
+      />
 
       {/* ================= Popup ================= */}
 
@@ -246,7 +246,9 @@ export default function Chat() {
               <p className="text-on-surface-variant text-lg text-center">
                 Select a chat or start a new one!
                 <br></br>
-                <span className="text-red-600">If you are in Syria, please enable a VPN for the app to work.</span>
+                <span className="text-red-600">
+                  If you are in Syria, please enable a VPN for the app to work.
+                </span>
               </p>
             </div>
           )}
