@@ -85,14 +85,14 @@ export async function POST(request) {
 
     if (!apiKey) {
       return Response.json(
-        { response: "الخدمة غير مهيأة حاليًا." },
+        { response: " 🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below" },
         { status: 503 },
       );
     }
 
     if (!incomingMessages.length) {
       return Response.json(
-        { response: "أرسل رسالة للبدء بالمحادثة." },
+        { response: "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below" },
         { status: 400 },
       );
     }
@@ -104,7 +104,7 @@ export async function POST(request) {
 
     if (hasOversizedMessage) {
       return Response.json(
-        { response: "الرسالة طويلة جدًا. اختصرها وحاول مرة أخرى." },
+        { response: "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below" },
         { status: 413 },
       );
     }
@@ -133,7 +133,7 @@ export async function POST(request) {
         const data = await callGemini(apiKey, payload, model);
         const aiResponse =
           data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-          "لا يوجد رد متاح الآن.";
+          "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below";
 
         return Response.json({ response: aiResponse });
       } catch (error) {
@@ -146,8 +146,8 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error in API:", error.message);
     const message = error.message.includes("503")
-      ? "الخدمة غير متاحة مؤقتًا، يرجى المحاولة لاحقًا."
-      : "حدث خطأ ما";
+      ? "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below"
+      : "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below";
 
     return Response.json({ response: message }, { status: 502 });
   }
