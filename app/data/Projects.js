@@ -26,8 +26,8 @@ export const dataProjects = [
       { name: "REACT", color: "text-primary" },
       { name: "REST API", color: "text-tertiary" },
     ],
-    demo: "#",
-    github: "#",
+    demo: "https://mini-store-azure.vercel.app/",
+    github: "https://github.com/adnandwere-dev/mini-store",
   },
   {
     title: "AI Chat Assistant",
@@ -40,6 +40,6 @@ export const dataProjects = [
       { name: "GEMINI API", color: "text-secondary" },
     ],
     demo: "/chat",
-    github: "#",
+    github: "https://github.com/adnandwere-dev/adnan-portfolio",
   },
 ];
