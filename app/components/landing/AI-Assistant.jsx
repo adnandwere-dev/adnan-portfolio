@@ -38,17 +38,6 @@ export default function AiAssistant() {
             I built a custom AI assistant trained on my skills and projects. Ask
             it anything about my experience or how I can help your team.
           </p>
-          <div className="flex flex-wrap gap-2">
-            <button className="bg-surface-container-high/60 px-4 py-2 rounded-full font-label-caps text-[10px] hover:bg-primary/20 hover:text-primary transition-all border border-transparent hover:border-primary/30">
-              &quot;TELL ME ABOUT ADNAN&quot;
-            </button>
-            <button className="bg-surface-container-high/60 px-4 py-2 rounded-full font-label-caps text-[10px] hover:bg-secondary/20 hover:text-secondary transition-all border border-transparent hover:border-secondary/30">
-              &quot;SHOW ME HIS PROJECTS&quot;
-            </button>
-            <button className="bg-surface-container-high/60 px-4 py-2 rounded-full font-label-caps text-[10px] hover:bg-primary/20 hover:text-primary transition-all border border-transparent hover:border-primary/30">
-              &quot;WHAT IS HIS TECH STACK?&quot;
-            </button>
-          </div>
           <Link
             href={"/chat"}
             className=" px-8 py-4 rounded-xl bg-linear-to-t  from-primary-container to-secondary-container text-white font-label-caps text-[12px] font-semibold uppercase hover:brightness-110 active:scale-95 transition-all "

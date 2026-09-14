@@ -61,7 +61,7 @@ export default function MessageBubble({ message }) {
   const isUser = message.role === "user";
 
   return (
-    <div className="max-w-full overflow-hidden">
+    <div className="min-w-0 max-w-full overflow-hidden">
       <div
         className={`
           px-4 py-4
@@ -69,7 +69,7 @@ export default function MessageBubble({ message }) {
           text-[15px]
           leading-8
 
-          max-w-[320px]
+          min-w-0 max-w-full
           sm:max-w-[500px]
           md:max-w-[650px]
           lg:max-w-[750px]

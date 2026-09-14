@@ -35,8 +35,8 @@ export default function Header({ active }) {
             CONTACT
           </a>
         </div>
-        <Link href="/chat">
-          <div className="border border-primary/20 text-primary px-6 py-2 rounded-xl font-label-caps bg-surface-container-low/50 backdrop-blur-sm hover:bg-primary/20 transition-all duration-300 active:scale-95">
+        <Link href="/chat" className="shrink-0">
+          <div className="border border-primary/20 text-primary px-3 sm:px-6 py-2 rounded-xl font-label-caps text-[11px] sm:text-base whitespace-nowrap bg-surface-container-low/50 backdrop-blur-sm hover:bg-primary/20 transition-all duration-300 active:scale-95">
             CHAT WITH MY AI
           </div>
         </Link>

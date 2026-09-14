@@ -1,6 +1,6 @@
 "use client";
 
-import { TerminalSquare } from "lucide-react";
+import { GitBranch } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -17,7 +17,7 @@ export default function ProjectCard({ project }) {
       }`}
       whileHover={{ y: -6 }}
     >
-      <div className="h-64 relative overflow-hidden">
+      <div className="h-48 sm:h-64 relative overflow-hidden">
         <Image
           alt={project.title}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-60 group-hover:opacity-100"
@@ -39,7 +39,7 @@ export default function ProjectCard({ project }) {
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-5 sm:p-8">
         <h3
           className={`font-h3 text-on-surface mb-2 transition-colors ${
             project.accent === "secondary"
@@ -54,13 +54,13 @@ export default function ProjectCard({ project }) {
           {project.description}
         </p>
 
-        <div className="flex gap-4">
+        <div className="flex gap-2 sm:gap-4">
           {hasDemo ? (
             <a
               href={project.demo}
               target={project.demo.startsWith("http") ? "_blank" : undefined}
               rel={project.demo.startsWith("http") ? "noreferrer" : undefined}
-              className={`flex-1 text-center py-3 px-6 rounded-xl font-label-caps border transition-all ${
+              className={`flex-1 text-center py-3 px-3 sm:px-6 rounded-xl font-label-caps border transition-all ${
                 project.accent === "secondary"
                   ? "bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 hover:shadow-[0_0_15px_rgba(78,222,163,0.3)]"
                   : "bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 hover:shadow-[0_0_15px_rgba(192,193,255,0.3)]"
@@ -71,7 +71,7 @@ export default function ProjectCard({ project }) {
           ) : (
             <span
               aria-disabled="true"
-              className="flex-1 text-center py-3 px-6 rounded-xl font-label-caps border border-white/10 text-on-surface-variant/50"
+              className="flex-1 text-center py-3 px-3 sm:px-6 rounded-xl font-label-caps border border-white/10 text-on-surface-variant/50"
             >
               DEMO NOT LIVE
             </span>
@@ -83,13 +83,14 @@ export default function ProjectCard({ project }) {
               target="_blank"
               rel="noreferrer"
               aria-label={`View ${project.title} source on GitHub`}
-              className={`py-3 px-4 rounded-xl border border-outline-variant text-on-surface transition-all hover:bg-white/5 ${
+              title={`View ${project.title} source on GitHub`}
+              className={`min-h-12 min-w-12 flex items-center justify-center py-3 px-3 sm:px-4 rounded-xl border border-outline-variant text-on-surface transition-all hover:bg-white/5 ${
                 project.accent === "secondary"
                   ? "hover:border-secondary/40 hover:text-secondary"
                   : "hover:border-primary/40 hover:text-primary"
               }`}
             >
-              <TerminalSquare size={18} />
+              <GitBranch size={18} aria-hidden="true" />
             </a>
           ) : (
             <span
@@ -97,7 +98,7 @@ export default function ProjectCard({ project }) {
               className="py-3 px-4 rounded-xl border border-white/10 text-on-surface-variant/40 cursor-not-allowed"
               aria-label="GitHub repository not available yet"
             >
-              <TerminalSquare size={18} />
+              <GitBranch size={18} aria-hidden="true" />
             </span>
           )}
         </div>

@@ -188,7 +188,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-dvh min-h-0 overflow-hidden bg-background">
       {/* ================= Sidebar ================= */}
 
       <Sidebar
@@ -212,7 +212,7 @@ export default function Chat() {
 
       {/* ================= Main ================= */}
 
-      <main className="flex-1 flex flex-col h-full relative overflow-hidden bg-surface">
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col h-full relative overflow-hidden bg-surface">
         {/* Glow */}
         <div className="absolute top-1/4 left-1/4 w-125 h-125 bg-primary/15 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -226,7 +226,7 @@ export default function Chat() {
 
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto px-4 md:px-8 py-8 z-10 flex flex-col gap-8 scroll-smooth"
+          className="flex-1 min-h-0 overflow-y-auto px-3 sm:px-4 md:px-8 py-4 md:py-8 z-10 flex flex-col gap-5 md:gap-8 scroll-smooth"
         >
           <div className="flex justify-center">
             <span className="font-label-caps text-[12px] font-semibold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full border border-outline-variant">

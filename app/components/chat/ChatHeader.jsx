@@ -1,10 +1,10 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Menu, MoreHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 
 export default function ChatHeader({ openSidebar, setOpenSidebar }) {
   return (
-    <header className="h-20 glass-panel border-b border-white/5 flex justify-between items-center px-4 md:px-8 z-10 shrink-0">
+    <header className="h-16 sm:h-20 glass-panel border-b border-white/5 flex justify-between items-center px-3 sm:px-4 md:px-8 z-10 shrink-0">
       <div className="flex items-center gap-3 md:gap-4">
         {/* Mobile Menu */}
         <button
@@ -23,11 +23,7 @@ export default function ChatHeader({ openSidebar, setOpenSidebar }) {
           onClick={() => setOpenSidebar((prev) => !prev)}
           className="hidden md:flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-on-surface-variant hover:text-primary transition-all duration-300 shadow-sm bg-white/5"
         >
-          {openSidebar ? (
-            <ChevronLeft size={20} />
-          ) : (
-            <ChevronRight size={20} />
-          )}
+          {openSidebar ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
 
         <div className="flex items-center gap-3 md:gap-4">
@@ -44,14 +40,6 @@ export default function ChatHeader({ openSidebar, setOpenSidebar }) {
           </div>
         </div>
       </div>
-
-      <button
-        type="button"
-        aria-label="More options"
-        className="text-on-surface-variant hover:text-white transition-colors"
-      >
-        <MoreHorizontal size={20} />
-      </button>
     </header>
   );
 }

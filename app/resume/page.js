@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {
+  Code2,
+  Download,
+  GraduationCap,
+  Languages,
+  Terminal,
+} from "lucide-react";
 
 const cvHref = "/my-cv.pdf";
 
@@ -110,7 +117,7 @@ export default function ResumePage() {
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               {t.available}
             </div>
-            <h1 className="font-display text-[48px] md:text-[64px] lg:text-[72px] text-on-surface mb-6 leading-tight">
+            <h1 className="font-display text-[40px] sm:text-[48px] md:text-[64px] lg:text-[72px] text-on-surface mb-6 leading-tight">
               {t.name}
             </h1>
             <h2 className="font-headline-lg text-headline-lg text-on-surface-variant mb-8 md:mb-10">
@@ -125,9 +132,7 @@ export default function ResumePage() {
                 download
                 className="btn-primary  bg-linear-to-r  from-primary to-secondary px-6 py-3 rounded-lg font-label-md text-gray-500 flex items-center justify-center gap-2 hover:shadow-lgtransition-all"
               >
-                <span className="material-symbols-outlined text-lg">
-                  download
-                </span>
+                <Download size={18} aria-hidden="true" />
                 {t.download}
               </a>
               <button
@@ -146,9 +151,11 @@ export default function ResumePage() {
             <div className="lg:col-span-2 flex flex-col gap-14 md:gap-16">
               <section>
                 <div className="flex items-center gap-3 mb-10">
-                  <span className="material-symbols-outlined text-primary text-[28px]">
-                    code
-                  </span>
+                  <Code2
+                    size={28}
+                    className="text-primary"
+                    aria-hidden="true"
+                  />
                   <h3 className="font-headline-sm text-headline-sm text-on-surface">
                     {t.projectsTitle}
                   </h3>
@@ -189,9 +196,11 @@ export default function ResumePage() {
 
               <section>
                 <div className="flex items-center gap-3 mb-10">
-                  <span className="material-symbols-outlined text-primary text-[28px]">
-                    school
-                  </span>
+                  <GraduationCap
+                    size={28}
+                    className="text-primary"
+                    aria-hidden="true"
+                  />
                   <h3 className="font-headline-sm text-headline-sm text-on-surface">
                     {t.educationTitle}
                   </h3>
@@ -210,9 +219,11 @@ export default function ResumePage() {
             <aside className="flex flex-col gap-8">
               <section className="glass-card p-6 md:p-8  lg:top-32">
                 <h3 className="font-headline-sm text-[18px] text-on-surface mb-8 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">
-                    terminal
-                  </span>
+                  <Terminal
+                    size={20}
+                    className="text-primary"
+                    aria-hidden="true"
+                  />
                   {t.skillsTitle}
                 </h3>
                 <div className="space-y-7">
@@ -290,9 +301,11 @@ export default function ResumePage() {
 
               <section className="glass-card p-6 md:p-8">
                 <h3 className="font-headline-sm text-[18px] text-on-surface mb-6 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">
-                    translate
-                  </span>
+                  <Languages
+                    size={20}
+                    className="text-primary"
+                    aria-hidden="true"
+                  />
                   {t.languagesTitle}
                 </h3>
                 <ul className="space-y-4">

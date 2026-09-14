@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  MessageCircleMore,
-  Plus,
-  Search,
-  Settings,
-  Trash2,
-  X,
-} from "lucide-react";
+import { MessageCircleMore, Plus, Search, Trash2, X } from "lucide-react";
 
 import { useState } from "react";
 
@@ -42,7 +35,7 @@ export default function Sidebar({
     const searchTerm = input.toLowerCase();
 
     const filteredChats = chats.filter((chat) =>
-      chat.title.toLowerCase().includes(searchTerm)
+      chat.title.toLowerCase().includes(searchTerm),
     );
 
     if (filteredChats.length > 0) {
@@ -72,8 +65,8 @@ export default function Sidebar({
           inset-y-0 left-0
           z-50
           flex flex-col
-          h-full
-          w-72 md:w-64
+          h-dvh md:h-full
+          w-72 max-w-[calc(100vw-2rem)] md:w-64
           border-r border-white/5
           bg-slate-950/95 md:bg-slate-950/40
           backdrop-blur-xl
@@ -83,9 +76,7 @@ export default function Sidebar({
           transition-transform duration-300 ease-in-out
 
           ${
-            openSidebar
-              ? "translate-x-0"
-              : "-translate-x-full md:translate-x-0"
+            openSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
           }
 
           md:flex
@@ -208,18 +199,6 @@ export default function Sidebar({
               </button>
             </div>
           ))}
-        </div>
-
-        {/* Footer */}
-        <div className="mt-auto px-4 pt-4 border-t border-white/5">
-          <button
-            type="button"
-            className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
-          >
-            <Settings size={18} />
-
-            <span>Preferences</span>
-          </button>
         </div>
       </aside>
     </>
