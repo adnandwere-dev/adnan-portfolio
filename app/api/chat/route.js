@@ -11,9 +11,7 @@ function normalizeMessages(messages = []) {
     if (Array.isArray(message?.parts)) {
       return {
         role: message.role === "assistant" ? "model" : "user",
-        parts: message.parts.filter(
-          (part) => typeof part?.text === "string",
-        ),
+        parts: message.parts.filter((part) => typeof part?.text === "string"),
       };
     }
 
@@ -26,8 +24,7 @@ function normalizeMessages(messages = []) {
 
 function getClientKey(request) {
   return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    "anonymous"
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous"
   );
 }
 
@@ -93,8 +90,7 @@ export async function POST(request) {
       ? body.messages.slice(-MAX_MESSAGES)
       : [];
 
-    const apiKey =
-      process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
     // Missing API key / server configuration
     if (!apiKey) {
@@ -120,13 +116,9 @@ export async function POST(request) {
 
     // Message too long
     const hasOversizedMessage = incomingMessages.some((message) => {
-      const text =
-        message?.parts?.[0]?.text || message?.content || "";
+      const text = message?.parts?.[0]?.text || message?.content || "";
 
-      return (
-        typeof text !== "string" ||
-        text.length > MAX_MESSAGE_CHARS
-      );
+      return typeof text !== "string" || text.length > MAX_MESSAGE_CHARS;
     });
 
     if (hasOversizedMessage) {
@@ -151,27 +143,17 @@ export async function POST(request) {
       contents: normalizeMessages(incomingMessages),
 
       generationConfig: {
-        temperature: 0.7,
-        topP: 0.9,
         maxOutputTokens: 512,
       },
     };
 
-    const modelsToTry = [
-      "gemini-1.5-flash",
-      "gemini-2.0-flash",
-      "gemini-flash-latest",
-    ];
+    const modelsToTry = ["gemini-3.6-flash", "gemini-3.5-flash-lite"];
 
     let lastError;
 
     for (const model of modelsToTry) {
       try {
-        const data = await callGemini(
-          apiKey,
-          payload,
-          model,
-        );
+        const data = await callGemini(apiKey, payload, model);
 
         const aiResponse =
           data?.candidates?.[0]?.content?.parts?.[0]?.text ||
@@ -183,10 +165,7 @@ export async function POST(request) {
       } catch (error) {
         lastError = error;
 
-        console.warn(
-          `Gemini model ${model} failed:`,
-          error.message,
-        );
+        console.warn(`Gemini model ${model} failed:`, error.message);
       }
     }
 
@@ -197,9 +176,6 @@ export async function POST(request) {
     const message =
       "🤖 The AI Assistant is temporarily unavailable due to a service error. Please try again later.";
 
-    return Response.json(
-      { response: message },
-      { status: 502 },
-    );
+    return Response.json({ response: message }, { status: 502 });
   }
 }
