@@ -90,7 +90,12 @@ export default function ProjectCard({ project }) {
                   : "hover:border-primary/40 hover:text-primary"
               }`}
             >
-              <GitBranch size={18} aria-hidden="true" />
+              <Image
+                src="https://thesvg.org/icons/github/dark.svg"
+                alt="GitHub"
+                width={18}
+                height={18}
+              />
             </a>
           ) : (
             <span

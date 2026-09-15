@@ -11,7 +11,9 @@ function normalizeMessages(messages = []) {
     if (Array.isArray(message?.parts)) {
       return {
         role: message.role === "assistant" ? "model" : "user",
-        parts: message.parts.filter((part) => typeof part?.text === "string"),
+        parts: message.parts.filter(
+          (part) => typeof part?.text === "string",
+        ),
       };
     }
 
@@ -24,12 +26,14 @@ function normalizeMessages(messages = []) {
 
 function getClientKey(request) {
   return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous"
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    "anonymous"
   );
 }
 
 function isRateLimited(clientKey) {
   const now = Date.now();
+
   const recentRequests = (requestLog.get(clientKey) || []).filter(
     (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS,
   );
@@ -41,6 +45,7 @@ function isRateLimited(clientKey) {
 
   recentRequests.push(now);
   requestLog.set(clientKey, recentRequests);
+
   return false;
 }
 
@@ -60,6 +65,7 @@ async function callGemini(apiKey, payload, model) {
 
   if (!response.ok) {
     const errorText = await response.text();
+
     throw new Error(
       `API error: ${response.status} ${response.statusText} - ${errorText}`,
     );
@@ -70,50 +76,80 @@ async function callGemini(apiKey, payload, model) {
 
 export async function POST(request) {
   try {
+    // Too many requests
     if (isRateLimited(getClientKey(request))) {
       return Response.json(
-        { response: "تم تجاوز الحد مؤقتًا، يرجى المحاولة لاحقًا." },
+        {
+          response:
+            "You're sending requests too quickly. Please wait a moment and try again.",
+        },
         { status: 429 },
       );
     }
 
     const body = await request.json();
+
     const incomingMessages = Array.isArray(body?.messages)
       ? body.messages.slice(-MAX_MESSAGES)
       : [];
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
+    const apiKey =
+      process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+
+    // Missing API key / server configuration
     if (!apiKey) {
       return Response.json(
-        { response: " 🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below" },
+        {
+          response:
+            "🤖 The AI Assistant is temporarily unavailable because the service configuration is incomplete. Please try again later.",
+        },
         { status: 503 },
       );
     }
 
+    // No message received
     if (!incomingMessages.length) {
       return Response.json(
-        { response: "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below" },
+        {
+          response:
+            "🤖 I couldn't process your request because no message was received. Please try sending your message again.",
+        },
         { status: 400 },
       );
     }
 
+    // Message too long
     const hasOversizedMessage = incomingMessages.some((message) => {
-      const text = message?.parts?.[0]?.text || message?.content || "";
-      return typeof text !== "string" || text.length > MAX_MESSAGE_CHARS;
+      const text =
+        message?.parts?.[0]?.text || message?.content || "";
+
+      return (
+        typeof text !== "string" ||
+        text.length > MAX_MESSAGE_CHARS
+      );
     });
 
     if (hasOversizedMessage) {
       return Response.json(
-        { response: "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below" },
+        {
+          response:
+            "🤖 Your message is too long to process. Please shorten it and try again.",
+        },
         { status: 413 },
       );
     }
 
     const payload = {
       system_instruction: {
-        parts: [{ text: systemPrompt?.parts?.[0]?.text || "" }],
+        parts: [
+          {
+            text: systemPrompt?.parts?.[0]?.text || "",
+          },
+        ],
       },
+
       contents: normalizeMessages(incomingMessages),
+
       generationConfig: {
         temperature: 0.7,
         topP: 0.9,
@@ -128,27 +164,42 @@ export async function POST(request) {
     ];
 
     let lastError;
+
     for (const model of modelsToTry) {
       try {
-        const data = await callGemini(apiKey, payload, model);
+        const data = await callGemini(
+          apiKey,
+          payload,
+          model,
+        );
+
         const aiResponse =
           data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-          "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below";
+          "🤖 The AI Assistant couldn't generate a response right now. Please try again in a moment.";
 
-        return Response.json({ response: aiResponse });
+        return Response.json({
+          response: aiResponse,
+        });
       } catch (error) {
         lastError = error;
-        console.warn(`Gemini model ${model} failed:`, error.message);
+
+        console.warn(
+          `Gemini model ${model} failed:`,
+          error.message,
+        );
       }
     }
 
     throw lastError || new Error("Unknown Gemini error");
   } catch (error) {
     console.error("Error in API:", error.message);
-    const message = error.message.includes("503")
-      ? "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below"
-      : "🤖 AI Assistant is temporarily unavailable I'm currently performing maintenance on this service.You can still explore my projects and experience below";
 
-    return Response.json({ response: message }, { status: 502 });
+    const message =
+      "🤖 The AI Assistant is temporarily unavailable due to a service error. Please try again later.";
+
+    return Response.json(
+      { response: message },
+      { status: 502 },
+    );
   }
 }
