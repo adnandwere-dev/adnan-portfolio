@@ -10,7 +10,7 @@ import {
   Terminal,
 } from "lucide-react";
 
-const cvHref = "/my-cv.pdf";
+const cvHref = "/adnandwere.pdf";
 
 export default function ResumePage() {
   const [language, setLanguage] = useState("en");
